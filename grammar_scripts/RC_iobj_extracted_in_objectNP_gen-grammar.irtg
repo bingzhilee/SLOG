@@ -1,0 +1,67 @@
+{## Subsets of main grammar that only generate
+recipient-extracted clauses that modify NP in object position
+object position NP:
+    - main theme --> RC recipient #  N_obj that Emma gave a cake to [0.45]
+embedded RC allowed: Emma said that Liam saw the boy that Emma gave a cake to  [0.1]
+##}
+
+
+{# RC modifying NP in object postion #}
+S! -> r{{ cnt.next() }}(NP_animate_nsubj, V_main, NP_animate_dobj_RC_modified) [0.9]
+[english] *(*(?1, ?2),?3)
+[semantics] theme(pre_agent(?2, ?1),?3)
+
+S! -> r{{ cnt.next() }}(NP_animate_nsubj, VP_cp) [0.1]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+VP_cp -> I_cp_embedded_RC_F{{ cnt.next() }}(V_cp_taking, C, S!) [1]
+[english] *(?1, *(?2, ?3))
+[semantics] ccomp(?1, ?3)
+
+NP_animate_dobj_RC_modified -> r{{ cnt.next() }}(NP_animate_dobj_RC, Rel_pron, VP_RC_recipient) [1]
+[english] *(*(?1, ?2),?3)
+[semantics] 'nmod<that>'(?1, recipient(?3,?2))
+
+
+NP_animate_dobj_RC -> r{{ cnt.next() }}(Det, N_common_animate_dobj) [1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+V_main -> r{{ cnt.next() }}(V_unacc) [0.33]
+[english] ?1
+[semantics] ?1
+
+V_main -> r{{ cnt.next() }}(V_trans_omissible) [0.33]
+[english] ?1
+[semantics] ?1
+
+V_main -> r{{ cnt.next() }}(V_trans_not_omissible) [0.34]
+[english] ?1
+[semantics] ?1
+
+
+VP_RC_recipient -> r{{ cnt.next() }}(NP_animate_nsubj, V_dat, NP_inanimate_dobj, P_iobj) [1]
+[english] *(*(*(?1, ?2),?3),?4)
+[semantics] theme(agent(?2,?1),?3)
+
+
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_inanimate_dobj -> r{{ cnt.next() }}(Det, N_common_inanimate_dobj) [1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+
+
+
+

@@ -1,0 +1,37 @@
+{# wh-question generalization grammar that generates questions about the dobj of of ditransitive verbs
+- What did Emma give _ to Liam? & - What did Emma give Liam ?
+--> give ( agent = Emma, theme = ?, recipient = Liam)
+
+#}
+
+{# Who Q #}
+
+
+{# What Q #}
+S! -> S_What_dobject_PP_ditrans_E{{ cnt.next() }}(WHAT, AUX_did, NP_animate_nsubj, V_dat_inf, PP_iobj) [0.5]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] recipient(theme(agent(?4, ?3),?1),?5)
+
+S! -> S_What_dobject_double_ditrans_E{{ cnt.next() }}(WHAT, AUX_did, NP_animate_nsubj, V_dat_inf, NP_animate_iobj) [0.5]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] recipient(theme(agent(?4, ?3),?1),?5)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+PP_iobj -> r{{ cnt.next() }} (P_iobj, NP_animate_iobj)[1]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+NP_animate_iobj -> r{{ cnt.next() }}(Det, N_common_animate_iobj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_iobj -> r{{ cnt.next() }}(N_prop_iobj) [0.5]
+[english] ?1
+[semantics] ?1

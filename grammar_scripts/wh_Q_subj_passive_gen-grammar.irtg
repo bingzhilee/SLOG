@@ -1,0 +1,89 @@
+{# wh-question generalization grammar that generates
+Theme Q:
+- passive Q:
+Who was given a cake (by Emma) ?
+What was found?
+#}
+
+
+{# Who Q #}
+S! -> S_Who_subject_pass_recipient_E{{ cnt.next() }}(WHO, VP_pass_recipient) [0.2]
+[english] *(?1, ?2)
+[semantics] pre_recipient(?2, ?1)
+
+VP_pass_recipient -> r{{ cnt.next() }}(AUX, V_dat_pp, NP_inanimate_dobj) [0.5]
+[english] *(*(?1, ?2),?3)
+[semantics] theme(?2,?3)
+
+VP_pass_recipient -> r{{ cnt.next() }}(AUX, V_dat_pp, NP_inanimate_dobj, BY, NP_animate_nsubj) [0.5]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] agent(theme(?2,?3),?5)
+
+{# What Q #}
+S! -> r{{ cnt.next() }}(WHAT, VP_passive) [0.8]
+[english] *(?1, ?2)
+[semantics] pre_theme(?2,?1)
+
+
+{# passive forms #}
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX,V_trans_not_omissible_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_trans_not_omissible_pp, BY, NP_animate_nsubj) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_trans_omissible_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_trans_omissible_pp, BY, NP_animate_nsubj) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX,V_unacc_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_unacc_pp, BY, NP_animate_nsubj) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_dat_pp, PP_iobj) [0.125]
+[english] *(*(?1, ?2),?3)
+[semantics] recipient(?2,?3)
+
+VP_passive -> S_What_subject_pass_E{{ cnt.next() }}(AUX, V_dat_pp, PP_iobj, BY, NP_animate_nsubj) [0.125]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] agent(recipient(?2,?3),?5)
+
+
+
+{# NPs #}
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_inanimate_dobj -> r{{ cnt.next() }}(Det, N_common_inanimate_dobj) [1.0]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+PP_iobj -> r{{ cnt.next() }} (P_iobj, NP_animate_iobj)[1]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+NP_animate_iobj -> r{{ cnt.next() }}(Det, N_common_animate_iobj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_iobj -> r{{ cnt.next() }}(N_prop_iobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+

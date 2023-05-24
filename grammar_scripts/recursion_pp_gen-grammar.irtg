@@ -1,0 +1,116 @@
+{# From Najoung's grammar: grammar with high PP probability, for PP recursion depth 3,5-12 #}
+
+{## Sentences and verb phrases ##}
+S! -> r{{ cnt.next() }}(NP_animate_nsubj, VP_external) [0.9]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+S! -> r{{ cnt.next() }}(NP_animate_nsubj, VP_CP) [0.1]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+VP_CP -> r{{ cnt.next() }}(V_cp_taking, C, S!) [1]
+[english] *(?1, *(?2, ?3))
+[semantics] ccomp(?1, ?3)
+
+VP_external -> r{{ cnt.next() }}(V_unacc, NP_dobj) [0.2]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_trans_omissible, NP_dobj) [0.2]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_trans_not_omissible, NP_dobj) [0.2] 
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> I_dobj_before_iobj_F{{ cnt.next() }}(V_dat, NP_inanimate_dobj, PP_iobj) [0.2]
+[english] *(*(?1, ?2), ?3)
+[semantics] recipient(theme(?1, ?2), ?3)
+
+VP_external -> I_dobj_after_iobj_F{{ cnt.next() }}(V_dat, NP_animate_iobj, NP_inanimate_dobj) [0.2]
+[english] *(*(?1, ?2), ?3)
+[semantics] theme(recipient(?1, ?2), ?3)
+
+
+{## Noun phrases ##}
+
+NP_dobj -> r{{ cnt.next() }}(NP_inanimate_dobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_dobj -> r{{ cnt.next() }}(NP_animate_dobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_dobj -> S_PP_E{{ cnt.next() }}(Det, N_common_animate_dobj, PP_loc) [1]
+[english] *(*(?1, ?2), ?3)
+[semantics] nmod(pre_det(?2, ?1), ?3)
+
+NP_animate_iobj -> r{{ cnt.next() }}(Det, N_common_animate_iobj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_iobj -> r{{ cnt.next() }}(N_prop_iobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_inanimate_dobj -> S_PP_E{{ cnt.next() }}(Det, N_common_inanimate_dobj, PP_loc) [1]
+[english] *(*(?1, ?2), ?3)
+[semantics] nmod(pre_det(?2, ?1), ?3)
+
+
+NP_on -> S_PP_E{{ cnt.next() }}(Det, N_on, PP_loc) [0.9]
+[english] *(*(?1, ?2), ?3)
+[semantics] nmod(pre_det(?2, ?1), ?3)
+
+NP_on -> r{{ cnt.next() }}(Det, N_on) [0.1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+NP_in -> S_PP_E{{ cnt.next() }}(Det, N_in, PP_loc) [0.9]
+[english] *(*(?1, ?2), ?3)
+[semantics] nmod(pre_det(?2, ?1), ?3)
+
+NP_in -> r{{ cnt.next() }}(Det, N_in) [0.1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_beside -> S_PP_E{{ cnt.next() }}(Det, N_beside, PP_loc) [0.9]
+[english] *(*(?1, ?2), ?3)
+[semantics] nmod(pre_det(?2, ?1), ?3)
+
+NP_beside -> r{{ cnt.next() }}(Det, N_beside) [0.1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+{## Prepositional Phrases ##}
+
+PP_loc -> r{{ cnt.next() }}(P_on, NP_on) [0.334]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+PP_loc -> r{{ cnt.next() }}(P_in, NP_in) [0.333]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+PP_loc -> r{{ cnt.next() }}(P_beside, NP_beside) [0.333]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+PP_iobj -> r{{ cnt.next() }} (P_iobj,NP_animate_iobj)[1]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)

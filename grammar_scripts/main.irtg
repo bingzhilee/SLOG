@@ -1,0 +1,12 @@
+{% set cnt = counter(1) %}
+
+interpretation english: de.up.ling.irtg.algebra.StringAlgebra
+interpretation semantics: de.saar.coli.algebra.OrderedFeatureTreeAlgebra
+
+
+{% include 'lexicon.irtg' %}
+{% include 'main-grammar.irtg' %}
+
+
+
+

@@ -1,0 +1,265 @@
+{# wh-question generalization grammar that generates long distance movement of object wh Q
+excluding ditransitive verbs
+#}
+
+S! -> I_embedded_F{{ cnt.next() }}(AUX_did, NP_animate_nsubj_no_modifier, V_cp_taking_inf, C, Q_internal) [0.8]
+[english] *(*(*(*(?1, ?2),?3),?4),?5)
+[semantics] ccomp(pre_agent(?3,?2),?5)
+
+{# max CP depth == 2 #}
+S! -> I_embedded_F{{ cnt.next() }}(AUX_did, NP_animate_nsubj_no_modifier, V_cp_taking_inf, C, Q_embedded) [0.2]
+[english] *(*(*(*(?1, ?2),?3),?4),?5)
+[semantics] ccomp(pre_agent(?3,?2),?5)
+
+Q_embedded -> I_embedded_F{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_cp_taking, C, Q_internal) [1]
+[english] *(*(*(?1, ?2),?3),?4)
+[semantics] ccomp(pre_agent(?2,?1), ?4)
+
+{# what Q #}
+Q_internal -> S_What_dobject_trans_E{{ cnt.next() }}(nsubj_V_trans, WHAT) [0.5]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+{#
+Q_internal -> S_What_dobject_ditrans_E{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_dat, WHAT, PP_iobj_no_modifier) [0.1]
+[english] *(*(*(?1, ?2),?3),?4)
+[semantics] recipient(theme(agent(?2,?1),?3),?4)
+#}
+
+{# who Q #}
+Q_internal -> S_Who_dobject_trans_E{{ cnt.next() }}(nsubj_V_trans, WHO) [0.5]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+{#
+Q_internal -> S_Who_recipient_E{{ cnt.next() }}(VP_recipient, WHO) [0.1]
+[english] *(?1, ?2)
+[semantics] recipient(?1, ?2)
+
+VP_recipient -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_dat, NP_inanimate_dobj_no_modifier, P_iobj) [1]
+[english] *(*(*(?1, ?2),?3),?4)
+[semantics] theme(agent(?2,?1),?3)
+#}
+
+nsubj_V_trans -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_unacc) [0.33]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+nsubj_V_trans -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_trans_omissible) [0.33]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+nsubj_V_trans -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, V_trans_not_omissible) [0.34]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+
+VP_agent -> r{{ cnt.next() }}(V_unerg) [0.11]
+[english] ?1
+[semantics] ?1
+
+VP_agent -> r{{ cnt.next() }}(V_trans_omissible) [0.11]
+[english] ?1
+[semantics] ?1
+
+VP_agent -> r{{ cnt.next() }}(V_inf_taking, INF, V_inf)[0.11]
+[english] *(?1, *(?2, ?3))
+[semantics] xcomp(?1, ?3)
+
+VP_agent -> r{{ cnt.next() }}(V_dat, NP_inanimate_dobj_no_modifier, PP_iobj_no_modifier) [0.11]
+[english] *(*(?1, ?2), ?3)
+[semantics] recipient(theme(?1, ?2), ?3)
+
+VP_agent -> r{{ cnt.next() }}(V_dat, NP_animate_iobj_no_modifier, NP_inanimate_dobj_no_modifier) [0.11]
+[english] *(*(?1, ?2), ?3)
+[semantics] theme(recipient(?1, ?2), ?3)
+
+VP_agent -> r{{ cnt.next() }}(V_cp_taking, C, S_internal) [0.11]
+[english] *(?1, *(?2, ?3))
+[semantics] ccomp(?1, ?3)
+
+VP_agent -> r{{ cnt.next() }}(V_unacc, NP_dobj) [0.11]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_agent -> r{{ cnt.next() }}(V_trans_omissible, NP_dobj) [0.11]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_agent -> r{{ cnt.next() }}(V_trans_not_omissible, NP_dobj) [0.12]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+
+NP_animate_nsubj_no_modifier -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj_no_modifier -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_inanimate_dobj_no_modifier -> r{{ cnt.next() }}(Det, N_common_inanimate_dobj) [1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+PP_iobj_no_modifier -> r{{ cnt.next() }} (P_iobj, NP_animate_iobj_no_modifier)[1]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+NP_animate_iobj_no_modifier -> r{{ cnt.next() }}(Det, N_common_animate_iobj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_iobj_no_modifier -> r{{ cnt.next() }}(N_prop_iobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_dobj -> r{{ cnt.next() }}(NP_inanimate_dobj_no_modifier) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_dobj -> r{{ cnt.next() }}(NP_animate_dobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+PP_iobj_no_modifier -> r{{ cnt.next() }} (P_iobj, NP_animate_iobj_no_modifier)[1]
+[english] *(?1, ?2)
+[semantics] pre_case(?2, ?1)
+
+
+{# allows to generate CP Q: Who did Emma say __ believed that Peter slept #}
+S_internal -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, VP_external) [0.49]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+S_internal -> r{{ cnt.next() }}(VP_internal) [0.06]
+[english] ?1
+[semantics] ?1
+
+S_internal -> r{{ cnt.next() }}(NP_inanimate_nsubjpass, VP_passive) [0.375]
+[english] *(?1, ?2)
+[semantics] pre_theme(?2, ?1)
+
+S_internal -> r{{ cnt.next() }}(NP_animate_nsubjpass, VP_passive_dat) [0.075]
+[english] *(?1, ?2)
+[semantics] pre_recipient(?2, ?1)
+
+{# no embedded CP Q allowed: eg. Who did Emma say that Liam believed _ smiled
+VP_external -> r{{ cnt.next() }}(V_cp_taking, C, S_internal_CP) [0.158]
+[english] *(?1, *(?2, ?3))
+[semantics] ccomp(?1, ?3)
+#}
+
+VP_external -> r{{ cnt.next() }}(V_unerg) [0.125]
+[english] ?1
+[semantics] ?1
+
+VP_external -> r{{ cnt.next() }}(V_unacc, NP_dobj) [0.125]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_trans_omissible) [0.125]
+[english] ?1
+[semantics] ?1
+
+VP_external -> r{{ cnt.next() }}(V_trans_omissible, NP_dobj) [0.125]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_trans_not_omissible, NP_dobj) [0.125]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_inf_taking, INF, V_inf)[0.125]
+[english] *(?1, *(?2, ?3))
+[semantics] xcomp(?1, ?3)
+
+VP_external -> r{{ cnt.next() }}(V_dat, NP_inanimate_dobj_no_modifier, PP_iobj_no_modifier) [0.125]
+[english] *(*(?1, ?2), ?3)
+[semantics] recipient(theme(?1, ?2), ?3)
+
+VP_external -> r{{ cnt.next() }}(V_dat, NP_animate_iobj_no_modifier, NP_inanimate_dobj_no_modifier) [0.125]
+[english] *(*(?1, ?2), ?3)
+[semantics] theme(recipient(?1, ?2), ?3)
+
+VP_internal -> r{{ cnt.next() }}(NP_unacc_subj, V_unacc) [1]
+[english] *(?1, ?2)
+[semantics] pre_theme(?2, ?1)
+
+
+{## Noun phrases ##}
+
+NP_dobj -> r{{ cnt.next() }}(NP_inanimate_dobj_no_modifier) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_dobj -> r{{ cnt.next() }}(NP_animate_dobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_unacc_subj  -> r{{ cnt.next() }}(Det, N_common_animate_dobj) [1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_dobj -> r{{ cnt.next() }}(Det, N_common_animate_dobj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_dobj -> r{{ cnt.next() }}(N_prop_dobj) [0.5]
+[english] ?1
+[semantics] ?1
+
+
+NP_animate_nsubjpass -> r{{ cnt.next() }}(Det, N_common_animate_nsubjpass) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_nsubjpass -> r{{ cnt.next() }}(N_prop_nsubjpass) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_inanimate_nsubjpass -> r{{ cnt.next() }}(Det, N_common_inanimate_nsubjpass) [1.0]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+VP_passive -> r{{ cnt.next() }}(AUX,V_trans_not_omissible_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> r{{ cnt.next() }}(AUX,V_trans_not_omissible_pp, BY,NP_animate_nsubj_no_modifier) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> r{{ cnt.next() }}(AUX, V_trans_omissible_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> r{{ cnt.next() }}(AUX, V_trans_omissible_pp, BY,NP_animate_nsubj_no_modifier) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> r{{ cnt.next() }}(AUX,V_unacc_pp) [0.125]
+[english] *(?1, ?2)
+[semantics] ?2
+
+VP_passive -> r{{ cnt.next() }}(AUX, V_unacc_pp, BY,NP_animate_nsubj_no_modifier) [0.125]
+[english] *(*(?1, ?2),*(?3,?4))
+[semantics] agent(?2,?4)
+
+VP_passive -> r{{ cnt.next() }}(AUX, V_dat_pp, PP_iobj_no_modifier) [0.125]
+[english] *(*(?1, ?2),?3)
+[semantics] recipient(?2,?3)
+
+VP_passive -> r{{ cnt.next() }}(AUX, V_dat_pp, PP_iobj_no_modifier, BY,NP_animate_nsubj_no_modifier) [0.125]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] agent(recipient(?2,?3),?5)
+
+VP_passive_dat -> r{{ cnt.next() }}(AUX, V_dat_pp, NP_inanimate_dobj_no_modifier) [0.5]
+[english] *(*(?1, ?2),?3)
+[semantics] theme(?2,?3)
+
+VP_passive_dat -> r{{ cnt.next() }}(AUX, V_dat_pp, NP_inanimate_dobj_no_modifier, BY,NP_animate_nsubj_no_modifier) [0.5]
+[english] *(*(*(?1, ?2),?3),*(?4,?5))
+[semantics] agent(theme(?2,?3),?5)

@@ -1,0 +1,28 @@
+{# wh-question generalization grammar that generates questions about the indirect object of of ditransitive verbs
+- Who did Emma give a cake to ?
+  give ( agent = Emma, theme = cake, recipient = ?)
+#}
+
+S! -> S_Who_recipient_E{{ cnt.next() }}(WHO, AUX_did, VP_recipient) [1.0]
+[english] *(*(?1, ?2),?3)
+[semantics] recipient(?3, ?1)
+
+VP_recipient -> r{{ cnt.next() }}(NP_animate_nsubj, V_dat_inf, NP_inanimate_dobj, P_iobj) [1.0]
+[english] *(*(*(?1, ?2),?3),?4)
+[semantics] theme(agent(?2,?1),?3)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_inanimate_dobj -> r{{ cnt.next() }}(Det, N_common_inanimate_dobj) [1]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+
+

@@ -1,0 +1,72 @@
+{## grammar that generates center-embedding instances in object position:
+Emma liked the dress [ that the student [ that the man knew]  sold ] .
+##}
+
+S! -> r{{ cnt.next() }}(NP_animate_nsubj_no_modifier, VP_external) [1]
+[english] *(?1, ?2)
+[semantics] pre_agent(?2, ?1)
+
+VP_external -> r{{ cnt.next() }}(V_trans_omissible, NP_dobj) [0.33]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_trans_not_omissible, NP_dobj) [0.34]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+VP_external -> r{{ cnt.next() }}(V_unacc, NP_dobj) [0.33]
+[english] *(?1, ?2)
+[semantics] theme(?1, ?2)
+
+NP_dobj -> r{{ cnt.next() }}(NP_inanimate_dobj_with_modifier) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_dobj -> r{{ cnt.next() }}(NP_animate_dobj_with_modifier) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_inanimate_dobj_with_modifier -> S_embedded_E{{ cnt.next() }}(Det, N_common_inanimate_dobj, Rel_pron, VP_embedded_RC) [1]
+[english] *(*(*(?1, ?2), ?3),?4)
+[semantics] 'nmod<that>'(pre_det(?2,?1), theme(?4,?3))
+
+NP_animate_dobj_with_modifier -> S_embedded_E{{ cnt.next() }}(Det, N_common_animate_dobj, Rel_pron, VP_embedded_RC) [1]
+[english] *(*(*(?1, ?2), ?3),?4)
+[semantics] 'nmod<that>'(pre_det(?2,?1), theme(?4,?3))
+
+VP_embedded_RC -> r{{ cnt.next() }}(NP_animate_nsubj, V_unacc) [0.33]
+[english] *(?1, ?2)
+[semantics] agent(?2, ?1)
+
+VP_embedded_RC -> r{{ cnt.next() }}(NP_animate_nsubj, V_trans_omissible) [0.33]
+[english] *(?1, ?2)
+[semantics] agent(?2, ?1)
+
+VP_embedded_RC -> r{{ cnt.next() }}(NP_animate_nsubj, V_trans_not_omissible) [0.34]
+[english] *(?1, ?2)
+[semantics] agent(?2, ?1)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.01]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+NP_animate_nsubj -> r{{ cnt.next() }}(N_prop_nsubj) [0.01]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj -> S_embedded_E{{ cnt.next() }}(Det, N_common_animate_nsubj, Rel_pron, VP_embedded_RC) [0.98]
+[english] *(*(*(?1, ?2), ?3),?4)
+[semantics] 'nmod<that>'(pre_det(?2,?1), theme(?4,?3))
+
+
+NP_animate_nsubj_no_modifier -> r{{ cnt.next() }}(N_prop_nsubj) [0.5]
+[english] ?1
+[semantics] ?1
+
+NP_animate_nsubj_no_modifier -> r{{ cnt.next() }}(Det, N_common_animate_nsubj) [0.5]
+[english] *(?1, ?2)
+[semantics] pre_det(?2, ?1)
+
+
+
+
