@@ -1,0 +1,6 @@
+allennlp==2.9.2
+allennlp_models==2.9.0
+h5py==3.6.0
+numpy==1.21.5
+torch==1.10.2+cu113
+transformers==4.17.0
