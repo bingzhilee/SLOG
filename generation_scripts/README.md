@@ -14,17 +14,17 @@ python cogs-preprocess.py specify_grammar.irtg > preprocessed-<grammar-name>.irt
 ```
 
 3. Load `preprocessed-main.irtg` into Alto to generate pairs of sentences and [variable-free format LFs](https://github.com/google-research/language/tree/master/language/compgen/csl)(Qiu et al. 2022): 
-```
+```bash
 java -cp ../alto-2.3.9-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerator \
          --count 1000 \
          --suppress-duplicates \
          --pp-depth 0-2 \
          --cp-depth 0-2 \
          --cemb-depth 0-2 preprocessed_PP_modif_iobj_gen.irtg > alto_PP_modif_iobj_gen.tsv
-
 ```
 > where `../alto-2.3.9-SNAPSHOT-all.jar` bundles Alto classes and all dependent libraries. For detailed documentation, see [this page](https://github.com/bingzhilee/SLOG/wiki/Alto-source-code). The output tsv file has two columns: English sentence and variable-free meaning representation. The options are as follows:
-    - `--count <N>` says that we want to generate a corpus with `<N>` instances.
+
+>- `--count <N>` says that we want to generate a corpus with `<N>` instances.
 >- `--suppress-duplicates` says that the same sentence should never be generated twice. 
 >- `--pp-depth <min>-<max>` restricts the PP embedding depth to a minimum of `<min>` and a maximum of `<max>`. For instance, write `--pp-depth 0-2` to generate instances with PP depth at most two.
 >- `--cp-depth <min>-<max>` restricts the CP embedding depth in the same way. 
