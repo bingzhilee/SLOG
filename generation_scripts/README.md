@@ -1,5 +1,7 @@
 ## SLOG generation
-Our dataset is generated from a probabilistic Synchronous Context-Free Grammar (SCFG) implemented in [Alto](https://github.com/coli-saar/alto), simultaneously generating the English expressions and their corresponding meaning representations. See [here](https://github.com/bingzhilee/SLOG/wiki/Reimplementation-of-the-COGS-grammar-for-Alto) for more description of the implementation of the grammar. 
+We used a probabilistic Synchronous Context-Free Grammar (SCFG) implemented in [Alto](https://github.com/coli-saar/alto) to simultaneously generate English sentences and their corresponding meaning representations. For detailed description of the grammar implementation, please refer to [this page](https://github.com/bingzhilee/SLOG/wiki/Reimplementation-of-the-COGS-grammar-for-Alto).
+
+Below are the steps to generate the SLOG corpus:
 1. We use python 3.9.17. To install the required packages, run:
 ```
 pip install -r requirements.txt
