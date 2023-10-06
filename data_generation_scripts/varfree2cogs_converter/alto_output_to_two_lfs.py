@@ -4,8 +4,8 @@
 import convert_varfree_to_cogs
 import pandas as pd
 import sys
-#from sklearn.model_selection import train_test_split
-#import re
+from sklearn.model_selection import train_test_split
+
 
 
 alto_file = sys.argv[1]
