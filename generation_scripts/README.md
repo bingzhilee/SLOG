@@ -23,14 +23,14 @@ java -cp ../alto-2.3.9-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerat
          --cemb-depth 0-2 preprocessed_PP_modif_iobj_gen.irtg > alto_PP_modif_iobj_gen.tsv
 
 ```
-where `../alto-2.3.9-SNAPSHOT-all.jar` bundles Alto classes and all dependent libraries. For detailed documentation, see [this page](https://github.com/bingzhilee/SLOG/wiki/Alto-source-code). The output tsv file has two columns: English sentence and variable-free meaning representation. The options are as follows:
-- `--count <N>` says that we want to generate a corpus with `<N>` instances.
-- `--suppress-duplicates` says that the same sentence should never be generated twice. 
-- `--pp-depth <min>-<max>` restricts the PP embedding depth to a minimum of `<min>` and a maximum of `<max>`. For instance, write `--pp-depth 0-2` to generate instances with PP depth at most two.
-- `--cp-depth <min>-<max>` restricts the CP embedding depth in the same way. 
-- `--cemb-depth <min>-<max>` restricts the center-embedding depth in the same way.
+> where `../alto-2.3.9-SNAPSHOT-all.jar` bundles Alto classes and all dependent libraries. For detailed documentation, see [this page](https://github.com/bingzhilee/SLOG/wiki/Alto-source-code). The output tsv file has two columns: English sentence and variable-free meaning representation. The options are as follows:
+    - `--count <N>` says that we want to generate a corpus with `<N>` instances.
+>- `--suppress-duplicates` says that the same sentence should never be generated twice. 
+>- `--pp-depth <min>-<max>` restricts the PP embedding depth to a minimum of `<min>` and a maximum of `<max>`. For instance, write `--pp-depth 0-2` to generate instances with PP depth at most two.
+>- `--cp-depth <min>-<max>` restricts the CP embedding depth in the same way. 
+>- `--cemb-depth <min>-<max>` restricts the center-embedding depth in the same way.
 
-See the [Alto documentation](https://github.com/coli-saar/alto/wiki/Generating-a-COGS-corpus) for more information on additional options. 
+>See the [Alto documentation](https://github.com/coli-saar/alto/wiki/Generating-a-COGS-corpus) for more information on additional options. 
 
 4. Postprocess alto output and convert the variable-free format to variable-based format (cogs format):
 ```
