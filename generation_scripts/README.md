@@ -1,13 +1,18 @@
 ## SLOG generation
 Our dataset is generated from a probabilistic Synchronous Context-Free Grammar (SCFG) implemented in [Alto](https://github.com/coli-saar/alto), simultaneously generating the English expressions and their corresponding meaning representations. See [here](https://github.com/bingzhilee/SLOG/wiki/Reimplementation-of-the-COGS-grammar-for-Alto) for more description of the implementation of the grammar. 
-1. Run`cogs-preprocess.py` in the `grammars` directory to expand the [Jinja](https://palletsprojects.com/p/jinja/) templates to produce actual [IRTG](https://github.com/coli-saar/alto/wiki/GettingStarted) grammars:
+1. We use python 3.9.17. To install the required packages, run:
+```
+pip install -r requirements.txt
+```
+
+2. Run`cogs-preprocess.py` in the `grammars` directory to expand the [Jinja](https://palletsprojects.com/p/jinja/) templates to produce actual [IRTG](https://github.com/coli-saar/alto/wiki/GettingStarted) grammars:
 
 ```
 python cogs-preprocess.py specify_grammar.irtg > preprocessed-<grammar-name>.irtg
 ```
 where `specify_grammar.irtg` specifies the grammar in the `grammars` directory.
 
-2. load `preprocessed-main.irtg` into Alto to generate the [variable-free format](https://github.com/google-research/language/tree/master/language/compgen/csl) introduced by Qiu et al. 2022: 
+3. load `preprocessed-main.irtg` into Alto to generate the [variable-free format](https://github.com/google-research/language/tree/master/language/compgen/csl) introduced by Qiu et al. 2022: 
 ```
 java -cp ../alto-2.3.9-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerator \
          --count 1000 \
@@ -26,7 +31,7 @@ where `../alto-2.3.9-SNAPSHOT-all.jar` bundles Alto classes and all dependent li
 
 See the [Alto documentation](https://github.com/coli-saar/alto/wiki/Generating-a-COGS-corpus) for more information on additional options. 
 
-3. Postprocess alto output, convert the variable-free format to variable-based format (cogs format):
+4. Postprocess alto output, convert the variable-free format to variable-based format (cogs format):
 ```
 python varfree2cogs_converter/alto_output_to_two_lfs.py alto_PP_modif_iobj_gen.tsv PP_modif_iobj
 ```
