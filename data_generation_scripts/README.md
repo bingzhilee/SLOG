@@ -9,15 +9,15 @@ where `specify_grammar.irtg` specifies the grammar in the `grammars` directory.
 
 2. load `preprocessed-main.irtg` into Alto to generate the [variable-free format](https://github.com/google-research/language/tree/master/language/compgen/csl) introduced by Qiu et al. 2022: 
 ```
-java -cp ../alto-2.3.8-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerator \
+java -cp ../alto-2.3.9-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerator \
          --count 1000 \
          --suppress-duplicates \
          --pp-depth 0-2 \
          --cp-depth 0-2 \
-         --cemb-depth 0-2 preprocessed_PP_modif_iobj_gen.irtg > varfree_PP_modif_iobj_gen.tsv
+         --cemb-depth 0-2 preprocessed_PP_modif_iobj_gen.irtg > alto_PP_modif_iobj_gen.tsv
 
 ```
-where `../alto-2.3.8-SNAPSHOT-all.jar` bundles Alto classes and all dependent libraries. For detailed documentation, see [here](https://github.com/bingzhilee/SLOG/wiki/Alto-source-code). The output tsv file has two columns: English sentence and variable-free meaning representation. The options are as follows:
+where `../alto-2.3.9-SNAPSHOT-all.jar` bundles Alto classes and all dependent libraries. For detailed documentation, see [here](https://github.com/bingzhilee/SLOG/wiki/Alto-source-code). The output tsv file has two columns: English sentence and variable-free meaning representation. The options are as follows:
 - `--count <N>` says that we want to generate a corpus with `<N>` instances.
 - `--suppress-duplicates` says that the same sentence should never be generated twice. 
 - `--pp-depth <min>-<max>` restricts the PP embedding depth to a minimum of `<min>` and a maximum of `<max>`. For instance, write `--pp-depth 0-2` to generate instances with PP depth at most two.
@@ -26,7 +26,7 @@ where `../alto-2.3.8-SNAPSHOT-all.jar` bundles Alto classes and all dependent li
 
 See the [Alto documentation](https://github.com/coli-saar/alto/wiki/Generating-a-COGS-corpus) for more information on additional options. 
 
-3. Run `varfree2slog.py` to convert the variable-free format to SLOG format:
+3. Postprocess alto output, convert the variable-free format to variable-based format (cogs format):
 ```
-python varfree2cogs_converter/convert_varfree_to_cogs.py varfree_PP_modif_iobj_gen.tsv <output_dir>
+python varfree2cogs_converter/alto_output_to_two_lfs.py alto_PP_modif_iobj_gen.tsv PP_modif_iobj
 ```
