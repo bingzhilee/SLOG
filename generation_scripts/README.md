@@ -7,10 +7,10 @@ Below are the steps to generate the SLOG corpus:
 pip install -r requirements.txt
 ```
 
-2. Run`cogs-preprocess.py` in the `grammars` directory to convert specific [Jinja](https://palletsprojects.com/p/jinja/) templates into corresponding [IRTG](https://github.com/coli-saar/alto/wiki/GettingStarted) grammars:
+2. Run`cogs-preprocess.py` in the `grammars` directory to convert specific [Jinja](https://palletsprojects.com/p/jinja/) templates into corresponding [IRTG](https://github.com/coli-saar/alto/wiki/GettingStarted) grammars. Before processing, update the [specify_grammar.irtg](https://github.com/bingzhilee/SLOG/blob/main/generation_scripts/grammars/specify_grammar.irtg) file with the IRTG grammar you want to preprocess. For example, to preprocess main-grammar.irtg, specified on line 8 of [specify_grammar.irtg](https://github.com/bingzhilee/SLOG/blob/main/generation_scripts/grammars/specify_grammar.irtg):
 
 ```
-python cogs-preprocess.py specify_grammar.irtg > preprocessed-<grammar-name>.irtg
+python cogs-preprocess.py specify_grammar.irtg > preprocessed-main.irtg
 ```
 
 3. Load `preprocessed-main.irtg` into Alto to generate pairs of sentences and [variable-free format LFs](https://github.com/google-research/language/tree/master/language/compgen/csl)(Qiu et al. 2022): 
@@ -31,7 +31,7 @@ java -cp ../alto-2.3.9-SNAPSHOT-all.jar de.up.ling.irtg.script.CogsCorpusGenerat
 
 > For further details on additional options, please refer to the [Alto documentation](https://github.com/coli-saar/alto/wiki/Generating-a-COGS-corpus). 
 
-4. Postprocess alto output and convert the variable-free format to variable-based format (cogs format):
+4. To postprocess alto output and convert the variable-free format to variable-based format (cogs format), go to [varfree2cogs_converter](https://github.com/bingzhilee/SLOG/tree/main/generation_scripts/varfree2cogs_converter) directory and run:
 ```
-python varfree2cogs_converter/alto_output_to_two_lfs.py alto_PP_modif_iobj_gen.tsv PP_modif_iobj
+python alto_output_to_two_lfs.py your-path-to/alto_PP_modif_iobj_gen.tsv your-path-to/PP_modif_iobj
 ```
